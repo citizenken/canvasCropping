@@ -1,4 +1,12 @@
+
 window.onload = function () {
+    var colorPurple = "#cb3594";
+    var colorGreen = "#659b41";
+    var colorYellow = "#ffcf33";
+    var colorBrown = "#986928";
+
+    var curColor = colorPurple;
+    var clickColor = new Array();
     // canvas = $("#canvas");
     context = document.getElementById('canvas').getContext("2d");
     $("#canvas").mousedown(function (e) {
@@ -21,6 +29,19 @@ window.onload = function () {
         paint = false;
     });
 
+    $("#choosePurpleSimpleColors").on("click", function () {
+      curColor = colorPurple
+    })
+    $("#chooseGreenSimpleColors").on("click", function () {
+      curColor = colorGreen
+    })
+    $("#chooseYellowSimpleColors").on("click", function () {
+      curColor = colorYellow
+    })
+    $("#chooseBrownSimpleColors").on("click", function () {
+      curColor = colorBrown
+    })
+
     $('#canvas').mouseleave(function(e){
         paint = false;
     });
@@ -35,15 +56,16 @@ window.onload = function () {
       clickX.push(x);
       clickY.push(y);
       clickDrag.push(dragging);
+      clickColor.push(curColor);
     }
 
     function redraw(){
       context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
-      
-      context.strokeStyle = "#df4b26";
+
       context.lineJoin = "round";
       context.lineWidth = 25;
-      for(var i=0; i < clickX.length; i++) {        
+      console.log(clickColor)
+      for(var i=0; i < clickX.length; i++) {
         context.beginPath();
         if(clickDrag[i] && i){
           context.moveTo(clickX[i-1], clickY[i-1]);
@@ -52,13 +74,18 @@ window.onload = function () {
          }
          context.lineTo(clickX[i], clickY[i]);
          context.closePath();
+         context.strokeStyle = clickColor[i];
          context.stroke();
       }
+
+      strokeInfo = {
+        colors: clickColor,
+        lineJoin: context.lineJoin,
+        lineWidth: context.lineWidth,
+        clickDrag: clickDrag}
+
+      message = JSON.stringify({type:"draw", body:{strokeInfo: strokeInfo, Xcoords: clickX, Ycoords: clickY}});
+      console.log(message);
+      // sendMessage(message);
     }
-
-
-
-
-
-
 }
