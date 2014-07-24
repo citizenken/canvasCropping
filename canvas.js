@@ -11,6 +11,8 @@ window.onload = function () {
 
     context = document.getElementById('canvas').getContext("2d");
 
+    document.onselectstart = function(){ return false; }
+
     $("#choosePurpleSimpleColors").on("click", function () {
       curColor = colorPurple
     })
