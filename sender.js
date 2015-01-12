@@ -1,6 +1,11 @@
 var applicationID = 'AB386FE7';
 var namespace = 'urn:x-cast:com.google.cast.sample.helloworld';
 
+$(document).ready(function() {
+  $('#canvas2').selectable()
+
+})
+
 /**
  * Call initialization for Cast
  */
